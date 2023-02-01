@@ -12,7 +12,6 @@ spec:
   selector:
     app.kubernetes.io/name: django-application
   ports:
-    - name: django-application-service-port
-      protocol: TCP
+    - protocol: TCP
       port: 80
       targetPort: django-app-port
