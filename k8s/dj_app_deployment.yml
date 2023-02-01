@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dj-app-deployment
+  labels:
+    app.kubernetes.io/name: django-application-deployment
+    app.kubernetes.io/instance: django-application-deployment-v1
+    app.kubernetes.io/version: 1.0.0
+    app.kubernetes.io/component: web-application
+    app.kubernetes.io/part-of: dvmn-k8s-lesson-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: django-application
+  template:
+    metadata:
+      name: django-app
+      labels:
+        app.kubernetes.io/name: django-application
+        app.kubernetes.io/instance: django-application-v1
+        app.kubernetes.io/version: 1.0.0
+        app.kubernetes.io/component: web-application
+        app.kubernetes.io/part-of: dvmn-k8s-lesson-1
+    spec:
+      containers:
+        - name: dj-app
+          image: dj-app:latest
+          imagePullPolicy: Never
+          ports:
+            - name: django-app-port
+              containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: dj-app-config-v1
+          volumeMounts:
+            - name: dj-app-config-volume
+              mountPath: /etc/dj-app-config
+      volumes:
+        - name: dj-app-config-volume
+          configMap:
+            name: dj-app-config-v1
