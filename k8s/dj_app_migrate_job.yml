@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: dj-app-migrate
+spec:
+  ttlSecondsAfterFinished: 0
+  template:
+    spec:
+      containers:
+        - name: dj-app
+          image: dj-app:latest
+          imagePullPolicy: Never
+          command: [ "python", "manage.py", "migrate", "--no-input" ]
+          envFrom:
+            - configMapRef:
+                name: dj-app-config-v1
+      restartPolicy: Never
