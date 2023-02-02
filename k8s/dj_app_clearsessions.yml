@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: dj-app-clear-sessions
+spec:
+  schedule: "0 0 1 * *"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 0
+      template:
+        spec:
+          containers:
+          - name: dj-app
+            image: dj-app:latest
+            imagePullPolicy: Never
+            command: ["python", "manage.py", "clearsessions"]
+            envFrom:
+            - configMapRef:
+                name: dj-app-config-v1
+          restartPolicy: Never
