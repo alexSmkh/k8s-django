@@ -54,7 +54,7 @@ minikube addons enable ingress
 make build
 ```
 
-#### Настройте базу данных и запустите в K8s
+#### 4. Настройте базу данных и запустите в K8s
 В файле `k8s/dj_app_postgres_config.yml` для PostgreSQL запишите свои значения:
 ```shell
 data:
@@ -68,7 +68,7 @@ make deploy-db
 ```
 
 
-#### Настройте и запустите Django
+#### 5. Настройте и запустите Django в K8s
 Для начала узнайте IP(далее DATABASE_URL), в котором живет БД. Выполните команду:
 ```shell
 k get pod postgres --template '{{.status.podIP}}
